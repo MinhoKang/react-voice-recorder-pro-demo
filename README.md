@@ -1,73 +1,68 @@
-# React + TypeScript + Vite
+# React Voice Recorder Pro Demo (Vite + React + TS)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a Vite-based demo to quickly try the `react-voice-recorder-pro` component. Run it locally to test mic recording, pause/resume, playback, and file download.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Install dependencies
+   ```bash
+   npm install
+   ```
 
-## React Compiler
+2. Start the dev server
+   ```bash
+   npm run dev
+   ```
+   Open the shown local URL in your browser (e.g., `http://localhost:5173`).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Scripts
 
-## Expanding the ESLint configuration
+- `npm run dev`: Start dev server (with HMR)
+- `npm run build`: Build TypeScript and create production bundle
+- `npm run preview`: Preview the production build locally
+- `npm run lint`: Run ESLint
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Quick Usage Example
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Minimal usage in `App.tsx`:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```tsx
+import { useState } from 'react'
+import { VoiceRecorder } from 'react-voice-recorder-pro'
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+export default function App() {
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
+
+  return (
+    <div style={{ padding: 24 }}>
+      <h1>React Voice Recorder Pro Demo</h1>
+      <VoiceRecorder onRecorded={setAudioBlob} />
+
+      {audioBlob && (
+        <audio controls src={URL.createObjectURL(audioBlob)} style={{ marginTop: 16 }} />
+      )}
+    </div>
+  )
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+For advanced options, see the package page: [`react-voice-recorder-pro` on npm](https://www.npmjs.com/package/react-voice-recorder-pro)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Build
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Create a production build:
+
+```bash
+npm run build
 ```
+
+The output is written to `dist/`. Use `npm run preview` to serve it locally.
+
+## Requirements
+
+- Node.js 18+ recommended
+- Microphone permission (allow the browser permission prompt)
+
+## License
+
+This demo is provided for learning and testing purposes.
